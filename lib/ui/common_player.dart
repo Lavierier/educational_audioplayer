@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:audioplayer/audioplayer.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -23,8 +23,6 @@ class CommonPlayer extends StatefulWidget {
 
 class CommonPlayerState extends State<CommonPlayer> {
   AudioPlayer audioPlayer;
-  StreamSubscription positionSubscription;
-  StreamSubscription audioPlayerStateSubscription;
   Duration duration;
   Duration position;
   Function setLastAudioMethod;
@@ -50,8 +48,6 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   @override
   void dispose() {
-    positionSubscription.cancel();
-    audioPlayerStateSubscription.cancel();
     audioPlayer.stop();
 
     try {
@@ -86,17 +82,11 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   Future pause() async {
     await audioPlayer.pause();
-    setState(() => playerState = AudioPlayerState.PAUSED);
-
-    try {
-      cancelNotification();
-    } catch (Exception) {}
   }
 
   Future stop() async {
     await audioPlayer.stop();
     setState(() {
-      playerState = AudioPlayerState.STOPPED;
       position = Duration();
     });
   }
@@ -155,7 +145,7 @@ class CommonPlayerState extends State<CommonPlayer> {
         newPosition = Duration(seconds: 0);
       }
       if (newPosition <= duration) {
-        audioPlayer.seek(newPosition.inSeconds.toDouble());
+        audioPlayer.seek(newPosition);
         position = newPosition;
       }
     });
@@ -165,7 +155,7 @@ class CommonPlayerState extends State<CommonPlayer> {
     setState(() {
       Duration newPosition = Duration(milliseconds: value.toInt());
       if (newPosition <= duration) {
-        audioPlayer.seek(newPosition.inSeconds.toDouble());
+        audioPlayer.seek(newPosition);
         position = Duration(milliseconds: value.toInt());
       }
     });
@@ -182,62 +172,55 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   _initAudioPlayer() {
     audioPlayer = AudioPlayer();
-    positionSubscription = audioPlayer.onAudioPositionChanged
-        .listen((p) => setState(() => position = p));
-    audioPlayerStateSubscription = audioPlayer.onPlayerStateChanged.listen((s) {
-      if (s == AudioPlayerState.PLAYING) {
-        setState(() => duration = audioPlayer.duration);
-      } else if (s == AudioPlayerState.COMPLETED) {
+
+    audioPlayer.onDurationChanged.listen((Duration d) {
+      if (mounted) {
         setState(() {
-          duration = Duration(seconds: 0);
-          position = Duration(seconds: 0);
-        });
-        _onComplete();
-      } else if (s == AudioPlayerState.STOPPED) {
-        _onStop();
-        setState(() {
-          position = duration;
+          duration = d;
         });
       }
-    }, onError: (msg) {
+    });
+    audioPlayer.onAudioPositionChanged.listen((Duration d) {
+      if (mounted) {
+        setState(() {
+          position = d;
+        });
+      }
+    });
+
+    audioPlayer.onPlayerCompletion.listen((event) {
+      onComplete();
+      setState(() {
+        position = duration;
+      });
+    });
+
+    audioPlayer.onPlayerStateChanged.listen((AudioPlayerState s) {
+      setState(() => playerState = s);
+    });
+
+    audioPlayer.onPlayerError.listen((msg) {
       setState(() {
         playerState = AudioPlayerState.STOPPED;
         duration = Duration(seconds: 0);
         position = Duration(seconds: 0);
       });
+      _showPlayFailDialog(context);
     });
   }
 
   Future _playNetwork(String url) async {
-    try {
-      await audioPlayer.play(url);
-      setState(() {
-        playerState = AudioPlayerState.PLAYING;
-      });
-    } on Exception {
-      _showPlayFailDialog(context);
-    }
+    await audioPlayer.play(url);
   }
 
   Future _playLocal(String path) async {
-    try {
-      await audioPlayer.play(path, isLocal: true);
-      setState(() => playerState = AudioPlayerState.PLAYING);
-    } on Exception {
-      _showPlayFailDialog(context);
-    }
+    await audioPlayer.play(path, isLocal: true);
   }
 
-  _onStop() {
-    setState(() => playerState = AudioPlayerState.STOPPED);
-  }
-
-  _onComplete() {
+  onComplete() {
     if (currentAudioIndex + 1 < currentAudios.length) {
       currentAudioIndex++;
       play(currentAudios, currentAudioIndex);
-    } else {
-      _onStop();
     }
   }
 

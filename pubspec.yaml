@@ -11,8 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  audioplayer:
-    path: ../audioplayer
+  audioplayers:
   http: ^00.12.0+2
   path_provider: ^00.5.0+1
   shared_preferences: ^0.4.3
