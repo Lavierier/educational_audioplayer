@@ -127,7 +127,7 @@ class CommonPlayerState extends State<CommonPlayer> {
         });
         currentAudioIndex++;
         await play(currentAudios, currentAudioIndex);
-        await audioPlayer.stop();
+        await stop();
       }
     }
   }
@@ -150,7 +150,7 @@ class CommonPlayerState extends State<CommonPlayer> {
         });
         currentAudioIndex--;
         await play(currentAudios, currentAudioIndex);
-        await audioPlayer.stop();
+        await stop();
       }
     }
   }
