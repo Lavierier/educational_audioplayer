@@ -57,22 +57,6 @@ class CommonPlayerState extends State<CommonPlayer> {
     super.dispose();
   }
 
-  void setStoppedState() {
-    setState(() => playerState = AudioPlayerState.STOPPED);
-  }
-
-  void setPausedState() {
-    setState(() => playerState = AudioPlayerState.PAUSED);
-  }
-
-  void playingState() {
-    setState(() => playerState = AudioPlayerState.PLAYING);
-  }
-
-  void completedState() {
-    setState(() => playerState = AudioPlayerState.COMPLETED);
-  }
-
   Future play(List<Audio> audios, int index,
       {Function setLastAudioMethodLocal}) async {
     _updateName(audios, index);
@@ -96,12 +80,10 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   Future pause() async {
     await audioPlayer.pause();
-    setPausedState();
   }
 
   Future stop() async {
     await audioPlayer.stop();
-    setStoppedState();
     setState(() {
       position = Duration();
     });
@@ -190,7 +172,6 @@ class CommonPlayerState extends State<CommonPlayer> {
 
     audioPlayer.onDurationChanged.listen((Duration d) {
       if (mounted) {
-        duration = Duration(seconds: 0);
         setState(() {
           duration = d;
         });
@@ -198,7 +179,6 @@ class CommonPlayerState extends State<CommonPlayer> {
     });
     audioPlayer.onAudioPositionChanged.listen((Duration d) {
       if (mounted) {
-        position = Duration(seconds: 0);
         setState(() {
           position = d;
         });
@@ -217,7 +197,7 @@ class CommonPlayerState extends State<CommonPlayer> {
     });
 
     audioPlayer.onPlayerError.listen((msg) {
-      setStoppedState();
+      stop();
       setState(() {
         duration = Duration(seconds: 0);
         position = Duration(seconds: 0);
@@ -228,20 +208,16 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   Future _playNetwork(String url) async {
     await audioPlayer.play(url);
-    playingState();
   }
 
   Future _playLocal(String path) async {
     await audioPlayer.play(path, isLocal: true);
-    playingState();
   }
 
   onComplete() {
     if (currentAudioIndex + 1 < currentAudios.length) {
       currentAudioIndex++;
       play(currentAudios, currentAudioIndex);
-    } else {
-      setStoppedState();
     }
   }
 
