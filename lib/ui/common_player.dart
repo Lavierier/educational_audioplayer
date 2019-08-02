@@ -57,6 +57,22 @@ class CommonPlayerState extends State<CommonPlayer> {
     super.dispose();
   }
 
+  void setStoppedState() {
+    setState(() => playerState = AudioPlayerState.STOPPED);
+  }
+
+  void setPausedState() {
+    setState(() => playerState = AudioPlayerState.PAUSED);
+  }
+
+  void playingState() {
+    setState(() => playerState = AudioPlayerState.PLAYING);
+  }
+
+  void completedState() {
+    setState(() => playerState = AudioPlayerState.COMPLETED);
+  }
+
   Future play(List<Audio> audios, int index,
       {Function setLastAudioMethodLocal}) async {
     currentAudios = audios;
@@ -82,10 +98,12 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   Future pause() async {
     await audioPlayer.pause();
+    setPausedState();
   }
 
   Future stop() async {
     await audioPlayer.stop();
+    setStoppedState();
     setState(() {
       position = Duration();
     });
@@ -200,8 +218,8 @@ class CommonPlayerState extends State<CommonPlayer> {
     });
 
     audioPlayer.onPlayerError.listen((msg) {
+      setStoppedState();
       setState(() {
-        playerState = AudioPlayerState.STOPPED;
         duration = Duration(seconds: 0);
         position = Duration(seconds: 0);
       });
@@ -211,16 +229,20 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   Future _playNetwork(String url) async {
     await audioPlayer.play(url);
+    playingState();
   }
 
   Future _playLocal(String path) async {
     await audioPlayer.play(path, isLocal: true);
+    playingState();
   }
 
   onComplete() {
     if (currentAudioIndex + 1 < currentAudios.length) {
       currentAudioIndex++;
       play(currentAudios, currentAudioIndex);
+    } else {
+      setStoppedState();
     }
   }
 
