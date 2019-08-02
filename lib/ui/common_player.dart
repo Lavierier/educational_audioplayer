@@ -193,6 +193,7 @@ class CommonPlayerState extends State<CommonPlayer> {
 
     audioPlayer.onDurationChanged.listen((Duration d) {
       if (mounted) {
+        duration = Duration(seconds: 0);
         setState(() {
           duration = d;
         });
@@ -200,6 +201,7 @@ class CommonPlayerState extends State<CommonPlayer> {
     });
     audioPlayer.onAudioPositionChanged.listen((Duration d) {
       if (mounted) {
+        position = Duration(seconds: 0);
         setState(() {
           position = d;
         });
