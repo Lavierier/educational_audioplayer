@@ -75,14 +75,12 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   Future play(List<Audio> audios, int index,
       {Function setLastAudioMethodLocal}) async {
-    currentAudios = audios;
-    currentAudioIndex = index;
+    _updateName(audios, index);
 
     if (setLastAudioMethodLocal is Function) {
       setLastAudioMethod = setLastAudioMethodLocal;
       setLastAudioMethod(audios[index].url);
     }
-    _updateName(audios[index].authorName);
 
     try {
       showNotification();
@@ -117,7 +115,7 @@ class CommonPlayerState extends State<CommonPlayer> {
           duration = Duration(seconds: 0);
           position = Duration(seconds: 0);
         });
-        currentAudioIndex++;
+        _updateName(currentAudios, currentAudioIndex + 1);
         play(currentAudios, currentAudioIndex);
       } else {
         await audioPlayer.stop();
@@ -125,9 +123,7 @@ class CommonPlayerState extends State<CommonPlayer> {
           duration = Duration(seconds: 0);
           position = Duration(seconds: 0);
         });
-        currentAudioIndex++;
-        await play(currentAudios, currentAudioIndex);
-        await stop();
+        _updateName(currentAudios, currentAudioIndex + 1);
       }
     }
   }
@@ -140,7 +136,7 @@ class CommonPlayerState extends State<CommonPlayer> {
           duration = Duration(seconds: 0);
           position = Duration(seconds: 0);
         });
-        currentAudioIndex--;
+        _updateName(currentAudios, currentAudioIndex - 1);
         play(currentAudios, currentAudioIndex);
       } else {
         await audioPlayer.stop();
@@ -148,9 +144,7 @@ class CommonPlayerState extends State<CommonPlayer> {
           duration = Duration(seconds: 0);
           position = Duration(seconds: 0);
         });
-        currentAudioIndex--;
-        await play(currentAudios, currentAudioIndex);
-        await stop();
+        _updateName(currentAudios, currentAudioIndex - 1);
       }
     }
   }
@@ -179,8 +173,11 @@ class CommonPlayerState extends State<CommonPlayer> {
     });
   }
 
-  _updateName(String name) {
-    setState(() {});
+  _updateName(List<Audio> audios, int index) {
+    setState(() {
+      currentAudios = audios;
+      currentAudioIndex = index;
+    });
   }
 
   @override
