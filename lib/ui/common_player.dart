@@ -59,12 +59,7 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   Future play(List<Audio> audios, int index,
       {Function setLastAudioMethodLocal}) async {
-    _updateName(audios, index);
-
-    if (setLastAudioMethodLocal is Function) {
-      setLastAudioMethod = setLastAudioMethodLocal;
-      setLastAudioMethod(audios[index].url);
-    }
+    _updateName(audios, index, setLastAudioMethodLocal: setLastAudioMethodLocal);
 
     try {
       showNotification();
@@ -155,11 +150,24 @@ class CommonPlayerState extends State<CommonPlayer> {
     });
   }
 
-  _updateName(List<Audio> audios, int index) {
+  _updateName(List<Audio> audios, int index, {Function setLastAudioMethodLocal}) {
     setState(() {
       currentAudios = audios;
       currentAudioIndex = index;
     });
+    if (setLastAudioMethodLocal is Function) {
+//      print('setLastAudioMethodLocal is function');
+      setLastAudioMethod = setLastAudioMethodLocal;
+      setLastAudioMethod(audios[index].url);
+    }
+    else if (setLastAudioMethod is Function){
+//      print('setLastAudioMethodLocal is not function');
+//      print('setLastAudioMethod is function');
+      setLastAudioMethod(audios[index].url);
+    }
+    else{
+//      print('setLastAudioMethod is not function');
+    }
   }
 
   @override
