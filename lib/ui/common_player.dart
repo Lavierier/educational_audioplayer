@@ -84,6 +84,10 @@ class CommonPlayerState extends State<CommonPlayer> {
     });
   }
 
+  Future resume() async{
+    await audioPlayer.resume();
+  }
+
   Future playNext() async {
     if (currentAudioIndex + 1 < currentAudios.length) {
       if (isPlaying) {

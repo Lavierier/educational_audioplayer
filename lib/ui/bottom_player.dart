@@ -138,7 +138,7 @@ class _BottomPlayerState extends CommonPlayerState {
                         onPressed: () {
                           isPlaying
                               ? pause()
-                              : play(currentAudios, currentAudioIndex);
+                              : isPaused ? resume() : play(currentAudios, currentAudioIndex);
                         },
                         iconSize: iconSize,
                         icon: isPlaying
