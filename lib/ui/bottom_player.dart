@@ -120,45 +120,92 @@ class _BottomPlayerState extends CommonPlayerState {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    Expanded(
+                      flex: 5,
+                      child: Container(),
+                    ),
                     IconButton(
                         onPressed: () {
                           playPrevious();
                         },
                         iconSize: iconSize,
+                        padding: EdgeInsets.only(
+                            left: 0,
+                            right: 0,
+                            bottom: defaultPadding,
+                            top: defaultPadding),
                         icon: Icon(Icons.skip_previous),
                         color: Theme.of(context).accentColor),
+                    Expanded(
+                      child: Container(),
+                    ),
                     IconButton(
                         onPressed: () {
                           addSecondsToPosition(-10);
                         },
                         iconSize: iconSize,
+                        padding: EdgeInsets.only(
+                            left: 0,
+                            right: 0,
+                            bottom: defaultPadding,
+                            top: defaultPadding),
                         icon: Icon(Icons.replay_10),
                         color: Theme.of(context).accentColor),
+                    Expanded(
+                      child: Container(),
+                    ),
                     IconButton(
                         onPressed: () {
                           isPlaying
                               ? pause()
-                              : isPaused ? resume() : play(currentAudios, currentAudioIndex);
+                              : isPaused
+                                  ? resume()
+                                  : play(currentAudios, currentAudioIndex);
                         },
                         iconSize: iconSize,
+                        padding: EdgeInsets.only(
+                            left: 0,
+                            right: 0,
+                            bottom: defaultPadding,
+                            top: defaultPadding),
                         icon: isPlaying
                             ? Icon(Icons.pause)
                             : Icon(Icons.play_arrow),
                         color: Theme.of(context).accentColor),
+                    Expanded(
+                      child: Container(),
+                    ),
                     IconButton(
                         onPressed: () {
                           addSecondsToPosition(10);
                         },
                         iconSize: iconSize,
+                        padding: EdgeInsets.only(
+                            left: 0,
+                            right: 0,
+                            bottom: defaultPadding,
+                            top: defaultPadding),
                         icon: Icon(Icons.forward_10),
                         color: Theme.of(context).accentColor),
+                    Expanded(
+                      child: Container(),
+                    ),
                     IconButton(
                         onPressed: () {
                           playNext();
                         },
                         iconSize: iconSize,
+                        padding: EdgeInsets.only(
+                            left: 0,
+                            right: 0,
+                            bottom: defaultPadding,
+                            top: defaultPadding),
                         icon: Icon(Icons.skip_next),
                         color: Theme.of(context).accentColor),
+                    Expanded(
+                      flex: 5,
+                      child: Container(),
+                    ),
                   ],
                 ),
               ],
