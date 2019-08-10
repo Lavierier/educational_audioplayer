@@ -59,10 +59,12 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   Future play(List<Audio> audios, int index,
       {Function setLastAudioMethodLocal}) async {
-    _updateName(audios, index, setLastAudioMethodLocal: setLastAudioMethodLocal);
+    _updateName(audios, index,
+        setLastAudioMethodLocal: setLastAudioMethodLocal);
 
     try {
-      showNotification();
+      cancelNotification();
+      showNotification(pauseNotification);
     } catch (Exception) {}
 
     String path = await getLocalPath(audios[index].url);
@@ -74,6 +76,10 @@ class CommonPlayerState extends State<CommonPlayer> {
   }
 
   Future pause() async {
+    try {
+      cancelNotification();
+      showNotification(playNotification);
+    } catch (Exception) {}
     await audioPlayer.pause();
   }
 
@@ -84,7 +90,11 @@ class CommonPlayerState extends State<CommonPlayer> {
     });
   }
 
-  Future resume() async{
+  Future resume() async {
+    try {
+      cancelNotification();
+      showNotification(pauseNotification);
+    } catch (Exception) {}
     await audioPlayer.resume();
   }
 
@@ -150,7 +160,8 @@ class CommonPlayerState extends State<CommonPlayer> {
     });
   }
 
-  _updateName(List<Audio> audios, int index, {Function setLastAudioMethodLocal}) {
+  _updateName(List<Audio> audios, int index,
+      {Function setLastAudioMethodLocal}) {
     setState(() {
       currentAudios = audios;
       currentAudioIndex = index;
@@ -159,13 +170,11 @@ class CommonPlayerState extends State<CommonPlayer> {
 //      print('setLastAudioMethodLocal is function');
       setLastAudioMethod = setLastAudioMethodLocal;
       setLastAudioMethod(audios[index].url);
-    }
-    else if (setLastAudioMethod is Function){
+    } else if (setLastAudioMethod is Function) {
 //      print('setLastAudioMethodLocal is not function');
 //      print('setLastAudioMethod is function');
       setLastAudioMethod(audios[index].url);
-    }
-    else{
+    } else {
 //      print('setLastAudioMethod is not function');
     }
   }
@@ -263,24 +272,38 @@ class CommonPlayerState extends State<CommonPlayer> {
       int id, String title, String body, String payload) async {}
 
   Future<void> onSelectNotification(String payload) async {
-    pause();
+    if (payload == pauseNotification) {
+      pause();
+    }
+    if (payload == playNotification) {
+      resume();
+    }
   }
 
-  Future<void> showNotification() async {
+  Future<void> showNotification(payload) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         notificationChannelId,
         notificationChannelName,
         notificationChannelDescription,
         playSound: false,
         enableVibration: false,
-        ongoing: true,
         styleInformation: DefaultStyleInformation(true, true));
     var iOSPlatformChannelSpecifics =
         IOSNotificationDetails(presentSound: false);
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+
+    String title = '';
+    if (payload == pauseNotification) {
+      title = pauseNotificationTitle;
+    }
+    if (payload == playNotification) {
+      title = playNotificationTitle;
+    }
+
     await flutterLocalNotificationsPlugin.show(
-        0, notificationTitle, notificationBody, platformChannelSpecifics);
+        0, title, notificationBody, platformChannelSpecifics,
+        payload: payload);
   }
 
   Future<void> cancelNotification() async {

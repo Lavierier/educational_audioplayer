@@ -28,8 +28,11 @@ const String deletionFailedDialogInfo =
 const String playFailedDialogTitle = 'Не удалось воспроизвести аудио';
 const String playFailedDialogInfo =
     'Возможно, нет соединения с Интернетом или файл поврежден';
-const String notificationTitle = 'Остановить аудио';
+const String pauseNotificationTitle = 'Остановить аудио';
+const String playNotificationTitle = 'Продолжить аудио';
 const String notificationBody = 'и открыть приложение';
+const pauseNotification = 'pause';
+const playNotification = 'play';
 
 const String resourceAllDownloadedAudio = 'AllDownloadedAudios';
 
