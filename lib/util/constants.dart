@@ -24,10 +24,10 @@ const String loadingFailedDialogTitle = 'Не удалось загрузить 
 const String loadingFailedDialogInfo =
     'Возможно, нет соединения с Интернетом или недостаточно свободной памяти на устройстве';
 const String deletionFailedDialogInfo =
-    'Не удалось удалить некоторые аудиофайлы. Возможно, они переименованы или удалены.';
+    'Не удалось удалить некоторые аудиофайлы. Возможно, они переименованы или удалены';
 const String playFailedDialogTitle = 'Не удалось воспроизвести аудио';
 const String playFailedDialogInfo =
-    'Возможно, файл поврежден, попробуйде удалить и заново загрузить аудио';
+    'Возможно, нет соединения с Интернетом или файл поврежден';
 const String notificationTitle = 'Остановить аудио';
 const String notificationBody = 'и открыть приложение';
 
