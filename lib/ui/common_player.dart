@@ -93,7 +93,6 @@ class CommonPlayerState extends State<CommonPlayer> {
       if (isPlaying) {
         await audioPlayer.stop();
         setState(() {
-          duration = Duration(seconds: 0);
           position = Duration(seconds: 0);
         });
         _updateName(currentAudios, currentAudioIndex + 1);
@@ -101,7 +100,6 @@ class CommonPlayerState extends State<CommonPlayer> {
       } else {
         await audioPlayer.stop();
         setState(() {
-          duration = Duration(seconds: 0);
           position = Duration(seconds: 0);
         });
         _updateName(currentAudios, currentAudioIndex + 1);
@@ -114,7 +112,6 @@ class CommonPlayerState extends State<CommonPlayer> {
       if (isPlaying) {
         await audioPlayer.stop();
         setState(() {
-          duration = Duration(seconds: 0);
           position = Duration(seconds: 0);
         });
         _updateName(currentAudios, currentAudioIndex - 1);
@@ -122,7 +119,6 @@ class CommonPlayerState extends State<CommonPlayer> {
       } else {
         await audioPlayer.stop();
         setState(() {
-          duration = Duration(seconds: 0);
           position = Duration(seconds: 0);
         });
         _updateName(currentAudios, currentAudioIndex - 1);
