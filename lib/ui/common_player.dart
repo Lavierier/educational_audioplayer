@@ -232,7 +232,6 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   Future onComplete() async {
     if (currentAudioIndex + 1 < currentAudios.length) {
-      await audioPlayer.stop();
       setState(() {
         position = Duration(seconds: 0);
       });
