@@ -103,7 +103,7 @@ class _BottomPlayerState extends CommonPlayerState {
                             children: <Widget>[
                               Text("${position != null ? positionText : ''}",
                                   style: TextStyle(fontSize: timeSize)),
-                              Slider(
+                              Slider.adaptive(
                                   value: position?.inMilliseconds?.toDouble() ??
                                       0.0,
                                   onChanged: (double value) =>

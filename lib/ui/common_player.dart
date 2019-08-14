@@ -32,10 +32,12 @@ class CommonPlayerState extends State<CommonPlayer> {
   get isPlaying => playerState == AudioPlayerState.PLAYING;
   get isPaused => playerState == AudioPlayerState.PAUSED;
 
-  get durationText =>
-      duration != null ? duration.toString().split('.').first : '';
-  get positionText =>
-      position != null ? position.toString().split('.').first : '';
+  get durationText => duration != null
+      ? '${duration.inMinutes.toString().padLeft(2, '0')}:${duration.inSeconds.remainder(60).toString().padLeft(2, '0')}'
+      : '';
+  get positionText => position != null
+      ? '${position.inMinutes.toString().padLeft(2, '0')}:${position.inSeconds.remainder(60).toString().padLeft(2, '0')}'
+      : '';
 
   @override
   void initState() {
