@@ -206,9 +206,6 @@ class CommonPlayerState extends State<CommonPlayer> {
 
     audioPlayer.onPlayerCompletion.listen((event) {
       onComplete();
-      setState(() {
-        position = duration;
-      });
     });
 
     audioPlayer.onPlayerStateChanged.listen((AudioPlayerState s) {
@@ -233,9 +230,13 @@ class CommonPlayerState extends State<CommonPlayer> {
     await audioPlayer.play(path, isLocal: true);
   }
 
-  onComplete() {
+  Future onComplete() async {
     if (currentAudioIndex + 1 < currentAudios.length) {
-      currentAudioIndex++;
+      await audioPlayer.stop();
+      setState(() {
+        position = Duration(seconds: 0);
+      });
+      _updateName(currentAudios, currentAudioIndex + 1);
       play(currentAudios, currentAudioIndex);
     }
   }
