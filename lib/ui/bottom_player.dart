@@ -1,4 +1,5 @@
 import 'package:educational_audioplayer/ui/common_player.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
@@ -103,7 +104,7 @@ class _BottomPlayerState extends CommonPlayerState {
                             children: <Widget>[
                               Text("${position != null ? positionText : ''}",
                                   style: TextStyle(fontSize: timeSize)),
-                              Slider.adaptive(
+                              CupertinoSlider(
                                   value: position?.inMilliseconds?.toDouble() ??
                                       0.0,
                                   onChanged: (double value) =>
