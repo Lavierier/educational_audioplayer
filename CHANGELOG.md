@@ -1,3 +1,7 @@
+## [1.1.1]
+- move to cupertino slider
+- fix bugs on ios
+
 ## [1.1.0]
 - move to audioplayers package.
 - add notification to resume audio
