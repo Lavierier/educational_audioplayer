@@ -4,14 +4,13 @@ const double lecturerNameSize = 14.0;
 const double timeSize = 16.0;
 const double iconSize = 48.0;
 const double playerInset = 8.0;
-const double defaultPadding = 8.0;
 const double closeIconSize = 32.0;
 
-const String downloadAudiosTitle = 'Загрузка файлов';
-const String deleteAudiosTitle = 'Удаление файлов';
+const String downloadAudiosTitle = 'Download story';
+const String deleteAudiosTitle = 'Delete Story';
 const String loadingConfirmationTitle_1 =
-    'Уверены, что хотите загрузить аудиофайлы \n(';
-const String loadingConfirmationTitle_2 = ' Мбайт)';
+    'Story is loading....';
+const String loadingConfirmationTitle_2 = ' Story is still loading. Please wait...';
 const String deletionConfirmationTitle =
     'Уверены, что хотите удалить загруженные аудтофайлы?';
 const String loadingConfirmationInfo =
@@ -25,18 +24,15 @@ const String loadingFailedDialogTitle = 'Не удалось загрузить 
 const String loadingFailedDialogInfo =
     'Возможно, нет соединения с Интернетом или недостаточно свободной памяти на устройстве';
 const String deletionFailedDialogInfo =
-    'Не удалось удалить некоторые аудиофайлы. Возможно, они переименованы или удалены';
+    'Не удалось удалить некоторые аудиофайлы. Возможно, они переименованы или удалены.';
 const String playFailedDialogTitle = 'Не удалось воспроизвести аудио';
 const String playFailedDialogInfo =
-    'Возможно, нет соединения с Интернетом или файл поврежден';
-const String pauseNotificationTitle = 'Остановить аудио';
-const String playNotificationTitle = 'Продолжить аудио';
-const String notificationBody = 'и открыть приложение';
-const pauseNotification = 'pause';
-const playNotification = 'play';
+    'Возможно, файл поврежден, попробуйде удалить и заново загрузить аудио';
+const String notificationTitle = 'A story time app';
+const String notificationBody = 'Playing a story time story';
 
 const String resourceAllDownloadedAudio = 'AllDownloadedAudios';
 
-const String notificationChannelId = 'Educational Audioplayer Notification ID';
-const String notificationChannelName = 'Educational Audioplayer Notification';
+const String notificationChannelId = 'StoryTime Audioplayer Notification ID';
+const String notificationChannelName = 'StoryTime Audioplayer Notification';
 const String notificationChannelDescription = 'Pause audio and open the app';
