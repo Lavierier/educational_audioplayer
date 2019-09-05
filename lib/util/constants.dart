@@ -38,7 +38,7 @@ const String notificationChannelId = 'StoryTime Audioplayer Notification ID';
 const String notificationChannelName = 'StoryTime Audioplayer Notification';
 const String notificationChannelDescription = 'Pause audio and open the app';
 
-const String pauseNotificationTitle = 'Pause story';
-const String playNotificationTitle = 'Play story';
+const String pauseNotificationTitle = 'Tap to pause';
+const String playNotificationTitle = 'Tap to play';
 const pauseNotification = 'pause';
 const playNotification = 'play';
