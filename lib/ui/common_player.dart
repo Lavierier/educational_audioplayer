@@ -80,7 +80,7 @@ class CommonPlayerState extends State<CommonPlayer> {
   Future pause() async {
     try {
       cancelNotification();
-      showNotification(playNotification);
+     // showNotification(playNotification);
     } catch (Exception) {}
     await audioPlayer.pause();
   }
@@ -95,7 +95,7 @@ class CommonPlayerState extends State<CommonPlayer> {
   Future resume() async {
     try {
       cancelNotification();
-      showNotification(pauseNotification);
+     // showNotification(pauseNotification);
     } catch (Exception) {}
     await audioPlayer.resume();
   }
@@ -106,8 +106,9 @@ class CommonPlayerState extends State<CommonPlayer> {
         await audioPlayer.stop();
         setState(() {
           position = Duration(seconds: 0);
+          play(currentAudios, currentAudioIndex + 1);
         });
-        play(currentAudios, currentAudioIndex + 1);
+       
       } else {
         await audioPlayer.stop();
         setState(() {
