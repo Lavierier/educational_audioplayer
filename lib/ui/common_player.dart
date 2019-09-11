@@ -50,7 +50,7 @@ class CommonPlayerState extends State<CommonPlayer> {
 
   @override
   void dispose() {
-    audioPlayer.stop();
+    //audioPlayer.stop();
 
     try {
       cancelNotification();
@@ -106,8 +106,8 @@ class CommonPlayerState extends State<CommonPlayer> {
         await audioPlayer.stop();
         setState(() {
           position = Duration(seconds: 0);
-          play(currentAudios, currentAudioIndex + 1);
         });
+        play(currentAudios, currentAudioIndex + 1);
        
       } else {
         await audioPlayer.stop();
@@ -233,8 +233,9 @@ class CommonPlayerState extends State<CommonPlayer> {
     if (currentAudioIndex + 1 < currentAudios.length) {
       setState(() {
         position = Duration(seconds: 0);
+         play(currentAudios, currentAudioIndex + 1);
       });
-      play(currentAudios, currentAudioIndex + 1);
+     
     }
   }
 
